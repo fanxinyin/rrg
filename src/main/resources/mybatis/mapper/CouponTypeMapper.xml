@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fan.activity.mapper.CouponTypeMapper">
+	<resultMap id="BaseResultMap" type="com.fan.activity.domain.CouponType">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="type_name" property="typeName" jdbcType="VARCHAR" />
+		<result column="creator_id" property="creatorId" jdbcType="BIGINT" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.fan.activity.domain.CouponType"
+		extends="BaseResultMap">
+		<result column="type_desc" property="typeDesc" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, type_name, creator_id, creator, create_time, type_desc
+	</sql>
+	<sql id="Blob_Column_List" > type_desc </sql>
+
+	<select id="findByActivityIsShow" resultType="java.lang.Integer">
+		SELECT *
+		FROM coupon_type ct
+		LEFT JOIN coupon_base_info cbi ON ct.id=cbi.coupon_type_id
+		LEFT JOIN activity_base_info abi ON abi.id=cbi.activity_id
+		WHERE abi.is_show= 1
+	</select>
+</mapper>
